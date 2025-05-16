@@ -1,0 +1,57 @@
+version: '3.9'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: event-mongo
+    ports:
+      - "27018:27017"
+    networks:
+      - event-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./volumes/mongo-data:/data/db
+
+  gateway-server:
+    build:
+      context: ./packages/gateway-server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - event-network
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+
+  auth-server:
+    build:
+      context: ./packages/auth-server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    networks:
+      - event-network
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+
+  event-server:
+    build:
+      context: ./packages/event-server
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    networks:
+      - event-network
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+
+networks:
+  event-network:
+    driver: bridge
