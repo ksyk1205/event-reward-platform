@@ -44,7 +44,7 @@ export class EventProxyController {
     }
 
     @Delete(':id')
-    @Roles(Role.ADMIN)
+    @Roles(Role.OPERATOR, Role.ADMIN)
     async deleteEvent(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
         await this.forwardRequest(req, res);
     }
@@ -74,7 +74,7 @@ export class EventProxyController {
     }
 
     @Delete(':eventId/rewards/:id')
-    @Roles(Role.ADMIN)
+    @Roles(Role.OPERATOR, Role.ADMIN)
     async deleteReward(@Req() req: Request, @Res() res: Response) {
         await this.forwardRequest(req, res);
     }

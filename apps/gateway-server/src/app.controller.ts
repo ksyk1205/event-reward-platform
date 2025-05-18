@@ -19,7 +19,7 @@ export class AppController {
   @Get('/event/ping')
   async pingEvent(@Res() res) {
     try {
-      const response = await axios.get('http://event-server:3000');
+      const response = await axios.get('http://event-server:3002');
       res.send(response.data);
     } catch (error) {
       console.error(error.message);
