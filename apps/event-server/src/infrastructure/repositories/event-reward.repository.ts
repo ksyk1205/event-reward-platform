@@ -4,11 +4,10 @@ import { Model } from 'mongoose';
 import { Reward } from '../../infrastructure/schemas/reward.schema';
 
 @Injectable()
-export class RewardRepository {
+export class EventRewardRepository {
     constructor(@InjectModel(Reward.name) private readonly rewardModel: Model<Reward>) {}
 
     async create(rewardData: Partial<Reward>): Promise<Reward> {
-        console.log('r!!!!!!!!! '+ rewardData);
         const createdReward = new this.rewardModel(rewardData);
         return createdReward.save();
     }

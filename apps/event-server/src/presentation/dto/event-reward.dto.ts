@@ -1,19 +1,19 @@
 import {RewardType} from "../../common/enums/reward-type.enum";
 import {IsEnum, IsNumber, IsOptional, IsString} from "class-validator";
 
-export class RewardResponseDto {
+export class EventRewardResponseDto {
     id: string;
     eventId: string;
     description: string;
     type: RewardType;
     quantity: number;
 
-    constructor(partial: Partial<RewardResponseDto>) {
+    constructor(partial: Partial<EventRewardResponseDto>) {
         Object.assign(this, partial);
     }
 }
 
-export class CreateRewardRequestDto {
+export class CreateEventRewardRequestDto {
     @IsString()
     description: string;
 
@@ -24,7 +24,7 @@ export class CreateRewardRequestDto {
     quantity: number;
 }
 
-export class UpdateRewardRequestDto {
+export class UpdateEventRewardRequestDto {
     @IsString()
     @IsOptional()
     description: string;
