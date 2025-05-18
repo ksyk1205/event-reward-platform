@@ -120,4 +120,5 @@ dist
 .history/
 
 
-/volumes
+# Volumes directory (Database, Docker storage, etc.)
+volumes/
