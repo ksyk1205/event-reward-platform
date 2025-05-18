@@ -15,7 +15,7 @@ services:
 
   gateway-server:
     build:
-      context: ./packages/gateway-server
+      context: ./apps/gateway-server
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -23,34 +23,34 @@ services:
       - event-network
     depends_on:
       - mongodb
+      - auth-server
+#      - event-server
     env_file:
       - .env
 
   auth-server:
     build:
-      context: ./packages/auth-server
+      context: ./apps/auth-server
       dockerfile: Dockerfile
-    ports:
-      - "3001:3000"
     networks:
       - event-network
     depends_on:
       - mongodb
     env_file:
-      - .env
+      - apps/auth-server/.env
+    environment:
+      MONGODB_URI: mongodb://root:password@event-mongo:27017/auth
 
-  event-server:
-    build:
-      context: ./packages/event-server
-      dockerfile: Dockerfile
-    ports:
-      - "3002:3000"
-    networks:
-      - event-network
-    depends_on:
-      - mongodb
-    env_file:
-      - .env
+#  event-server:
+#    build:
+#      context: apps/event-server
+#      dockerfile: Dockerfile
+#    networks:
+#      - event-network
+#    depends_on:
+#      - mongodb
+#    env_file:
+#      - apps/event-server/.env
 
 networks:
   event-network:
