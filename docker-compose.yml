@@ -24,7 +24,7 @@ services:
     depends_on:
       - mongodb
       - auth-server
-#      - event-server
+      - event-server
     env_file:
       - .env
 
@@ -38,19 +38,17 @@ services:
       - mongodb
     env_file:
       - apps/auth-server/.env
-    environment:
-      MONGODB_URI: mongodb://root:password@event-mongo:27017/auth
 
-#  event-server:
-#    build:
-#      context: apps/event-server
-#      dockerfile: Dockerfile
-#    networks:
-#      - event-network
-#    depends_on:
-#      - mongodb
-#    env_file:
-#      - apps/event-server/.env
+  event-server:
+    build:
+      context: apps/event-server
+      dockerfile: Dockerfile
+    networks:
+      - event-network
+    depends_on:
+      - mongodb
+    env_file:
+      - apps/event-server/.env
 
 networks:
   event-network:
