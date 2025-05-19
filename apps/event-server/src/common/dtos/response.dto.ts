@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsObject, IsArray } from 'class-validator';
+import {IsOptional, IsObject} from 'class-validator';
 
 export class ResponseDto<T> {
     @IsObject()

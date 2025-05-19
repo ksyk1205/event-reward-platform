@@ -9,14 +9,14 @@ import {UserProxyController} from "./presentation/controllers/user-proxy.control
 import {AppController} from "./app.controller";
 import {AppService} from "./app.service";
 import {RolesGuard} from "./common/guards/roles.guard";
-import {EventRewardRequestProxyController} from "./presentation/controllers/event-reward-request-proxy.controller";
+import {RewardRequestProxyController} from "./presentation/controllers/reward-request-proxy.controller";
 
 @Module({
   imports: [HttpModule],
   controllers: [AuthProxyController,
     EventProxyController,
     UserProxyController,
-    EventRewardRequestProxyController,
+    RewardRequestProxyController,
     AppController
   ],
   providers: [

@@ -11,6 +11,7 @@ export class ProxyService {
         if (path.startsWith('/auth')) return `http://auth-server:3001`+path;
         if (path.startsWith('/users')) return `http://auth-server:3001`+path;
         if (path.startsWith('/events')) return `http://event-server:3002`+path;
+        if (path.startsWith('/rewards')) return `http://event-server:3002`+path;
         return path;
     }
 
