@@ -49,6 +49,6 @@ export class RewardRequestProxyController extends BaseProxyController {
     @Get('me')
     @Roles(Role.USER, Role.AUDITOR, Role.OPERATOR, Role.ADMIN)
     async getRequestMe(@Req() req: Request, @Res() res: Response) {
-        await this.forwardRequest(req, res);
+        await this.forwardRequest(req, res, req.user);
     }
 }

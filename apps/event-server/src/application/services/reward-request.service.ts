@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, forwardRef, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {RewardRequestRepository} from '../../infrastructure/repositories/reward-request.repository';
 import {AuthenticatedUser} from "../../common/decorators/user.decorator";
 import {
@@ -6,13 +6,19 @@ import {
     RewardRequestFilterDto, RewardRequestResponseDto,
     UpdateRewardStatusRequestDto
 } from "../../presentation/dto/reward-request.dto";
+import {EventRepository} from "../../infrastructure/repositories/event.repository";
+import {RewardRequestStatus} from "../../common/enums/reward-request-status.enum";
 
 @Injectable()
 export class RewardRequestService {
-    constructor(private readonly rewardRequestRepository: RewardRequestRepository) {
+    constructor(private readonly rewardRequestRepository: RewardRequestRepository,
+                @Inject(forwardRef(() => EventRepository))
+                private readonly eventRepository: EventRepository) {
     }
 
     async create(user: AuthenticatedUser, createDto: CreateRewardRequestDto) {
+        const event = await this.eventRepository.findOne(createDto.rewardId);
+
         const existingRequest = await this.rewardRequestRepository.findByUserEventAndReward(
             user.id,
             createDto.eventId,
@@ -23,8 +29,12 @@ export class RewardRequestService {
             throw new BadRequestException(`Duplicate Reward Request for Reward ID: ${createDto.rewardId}`);
         }
 
+        let status = RewardRequestStatus.PENDING;
+        if (!event?.isApproval) {
+            status = RewardRequestStatus.APPROVED
+        }
 
-        await this.rewardRequestRepository.save(user.id, createDto);
+        await this.rewardRequestRepository.save(user.id, createDto, status);
     }
 
     async findAll(filter: RewardRequestFilterDto): Promise<RewardRequestResponseDto[]> {
@@ -39,7 +49,7 @@ export class RewardRequestService {
     }
 
     async findMe(user: AuthenticatedUser): Promise<RewardRequestResponseDto[]> {
-        const rewards = await this.rewardRequestRepository.findByUserId(user.userId);
+        const rewards = await this.rewardRequestRepository.findByUserId(user.id);
         return rewards.map(request => new RewardRequestResponseDto({
             id: request.id,
             eventId: request.eventId,

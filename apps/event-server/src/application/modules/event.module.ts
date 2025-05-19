@@ -11,6 +11,6 @@ import { EventRepository } from '../../infrastructure/repositories/event.reposit
     ],
     controllers: [EventController],
     providers: [EventService, EventRepository],
-    exports: [EventService, EventRepository],
+    exports: [EventService, EventRepository,MongooseModule],
 })
 export class EventModule {}

@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import mongoose, {Model} from 'mongoose';
 import {RewardRequest} from '../schemas/reward-request.schema';
 import {RewardRequestStatus} from "../../common/enums/reward-request-status.enum";
 import {
@@ -14,12 +14,12 @@ export class RewardRequestRepository {
     constructor(@InjectModel(RewardRequest.name) private rewardRequestModel: Model<RewardRequest>) {
     }
 
-    async save(userId: string, createDto: CreateRewardRequestDto): Promise<RewardRequest> {
+    async save(userId: string, createDto: CreateRewardRequestDto, status: RewardRequestStatus): Promise<RewardRequest> {
         const create = {
             userId: userId,
             eventId: createDto.eventId,
             rewardId: createDto.rewardId,
-            status: RewardRequestStatus.PENDING,
+            status: status,
             requestDate: new Date(),
         }
 
@@ -27,11 +27,17 @@ export class RewardRequestRepository {
     }
 
     async findById(id: string): Promise<RewardRequest | null> {
-        return this.rewardRequestModel.findOne({id}).exec();
+        return this.rewardRequestModel.findById(id).exec();
     }
 
     async findByUserId(userId: string): Promise<RewardRequest[]> {
-        return this.rewardRequestModel.find({userId}).exec();
+        console.log(`Type of userId: ${typeof userId}`);
+        if (mongoose.isValidObjectId(userId)) {
+            console.log("userId is a valid ObjectId, converting for query...");
+            userId = new mongoose.Types.ObjectId(userId).toString();
+        }
+        const result = await this.rewardRequestModel.find({userId}).exec();
+        return result;
     }
 
     async findByUserEventAndReward(userId: string, eventId: string, rewardId: string): Promise<RewardRequest | null> {
