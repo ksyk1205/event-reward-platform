@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {UserService} from "./user.service";
 import {User} from "../../infrastructure/schemas/user.schema";
@@ -28,11 +28,11 @@ export class AuthService {
         const user = await this.userService.findOne(userid);
 
         if (!user) {
-            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+            throw new BadRequestException('User not found');
         }
 
         if (user.password !== password) {
-            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException('Invalid credentials');
         }
 
         user.lastLoginAt = new Date();
