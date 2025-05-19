@@ -8,8 +8,16 @@ export class UserRepository {
     constructor(@InjectModel(User.name) private userModel: Model<User>) {
     }
 
-    async findOne(userid: string): Promise<User | null> {
-        return await this.userModel.findOne({ userid }).exec();
+    async findAll(): Promise<User[]> {
+        return await this.userModel.find().exec();
+    }
+
+    async findOneByUserId(userId: string): Promise<User | null> {
+        return await this.userModel.findOne({userId}).exec();
+    }
+
+    async findOne(id: string): Promise<User | null> {
+        return await this.userModel.findById(id).exec();
     }
 
     async save(user: Partial<User>): Promise<void> {
@@ -17,14 +25,16 @@ export class UserRepository {
         await createdUser.save();
     }
 
-    async update(userid: string, updateData: Partial<User>): Promise<User | null> {
-        const userDoc = await this.userModel.findOneAndUpdate({userid}, updateData, {
-            new: true,
-        }).exec();
+    async update(id: string, updateData: Partial<User>): Promise<User | null> {
+        const userDoc = await this.userModel.findOneAndUpdate(
+            { _id: id },
+            updateData,
+            { new: true }
+        ).exec();
         return userDoc;
     }
 
-    async delete(userid: string): Promise<void> {
-        await this.userModel.deleteOne({userid}).exec();
+    async delete(id: string): Promise<void> {
+        await this.userModel.deleteOne({ _id: id }).exec();
     }
 }

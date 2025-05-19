@@ -11,21 +11,12 @@ export class AuthService {
     ) {}
 
     generateToken(user: User): string {
-        const payload = { id: user._id, userid: user.userid, role: user.role };
+        const payload = { id: user._id, userid: user.userId, role: user.role };
         return this.jwtService.sign(payload);
     }
 
-    async validateUser(userid: string, password: string): Promise<User | null> {
-        const user = await this.userService.findOne(userid);
-
-        if (user && user.password === password) {
-            return user;
-        }
-        return null;
-    }
-
-    async login(userid: string, password: string): Promise<string> {
-        const user = await this.userService.findOne(userid);
+    async login(userId: string, password: string): Promise<string> {
+        const user = await this.userService.findOne(userId);
 
         if (!user) {
             throw new BadRequestException('User not found');

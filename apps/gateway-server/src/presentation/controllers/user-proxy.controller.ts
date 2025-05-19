@@ -1,6 +1,6 @@
-import { Controller, Post, Patch, Delete, Req, Res, UseGuards } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import {Controller, Post, Patch, Delete, Req, Res, UseGuards, Get, Param} from '@nestjs/common';
+import {Request, Response} from 'express';
+import {JwtAuthGuard} from 'src/common/guards/jwt-auth.guard';
 import {Role, Roles} from "../../common/decorators/roles.decorator";
 import {BaseProxyController} from "./base-proxy.controller";
 import {ProxyService} from "../../application/services/proxy.service";
@@ -11,21 +11,28 @@ export class UserProxyController extends BaseProxyController {
     constructor(proxyService: ProxyService) {
         super(proxyService);
     }
+
+    @Get()
+    @Roles(Role.ADMIN)
+    async findAllUser(@Req() req: Request, @Res() res: Response) {
+        await this.forwardRequest(req, res);
+    }
+
     @Post()
     @Roles(Role.ADMIN)
     async createUser(@Req() req: Request, @Res() res: Response) {
         await this.forwardRequest(req, res);
     }
 
-    @Patch()
+    @Patch(':id')
     @Roles(Role.ADMIN)
-    async updateUser(@Req() req: Request, @Res() res: Response) {
+    async updateUser(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
         await this.forwardRequest(req, res);
     }
 
-    @Delete()
+    @Delete(':id')
     @Roles(Role.ADMIN)
-    async deleteUser(@Req() req: Request, @Res() res: Response) {
+    async deleteUser(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
         await this.forwardRequest(req, res);
     }
 }

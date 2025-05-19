@@ -11,7 +11,7 @@ export class EventRewardService {
         await this.eventRewardRepository.create({
             eventId,
             ...rewardData,
-            createdBy: user.userid
+            createdBy: user.userId
         });
     }
 
@@ -41,7 +41,7 @@ export class EventRewardService {
     }
 
     async update(user: AuthenticatedUser, eventId: string, rewardId: string, updateData: UpdateEventRewardRequestDto): Promise<EventRewardResponseDto> {
-        const reward = await this.eventRewardRepository.update(eventId, rewardId, {...updateData, updatedBy: user.userid});
+        const reward = await this.eventRewardRepository.update(eventId, rewardId, {...updateData, updatedBy: user.userId});
         if (!reward) {
             throw new NotFoundException(`Reward with ID ${rewardId} not found.`);
         }

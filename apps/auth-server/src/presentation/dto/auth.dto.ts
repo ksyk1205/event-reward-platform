@@ -3,7 +3,7 @@ import {IsNotEmpty, IsString} from "class-validator";
 export class LoginRequestDto {
     @IsString()
     @IsNotEmpty({ message: 'userid is required' })
-    userid: string;
+    userId: string;
     @IsString()
     @IsNotEmpty({ message: 'password is required' })
     password: string;
@@ -12,5 +12,5 @@ export class LoginRequestDto {
 export class LoginResponseDto {
     statusCode: number;
     message: string;
-    accessToken: string;
+    refreshToken: string;
 }

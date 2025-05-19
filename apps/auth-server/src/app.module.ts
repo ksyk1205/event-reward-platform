@@ -24,7 +24,7 @@ import {AuthService} from "./application/services/auth.service";
   providers: [
     UserRepository,
     UserService,
-    AuthService,
+    AuthService
   ],
   exports: [
     UserService,

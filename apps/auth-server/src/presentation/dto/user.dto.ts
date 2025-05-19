@@ -4,7 +4,7 @@ import {Role} from "../../common/enums/roles.enum";
 export class CreateRequestDto {
     @IsString()
     @IsNotEmpty({ message: 'User ID is required' })
-    userid: string;
+    userId: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Password is required' })
@@ -17,7 +17,7 @@ export class CreateRequestDto {
 export class UpdateRequestDto {
     @IsString()
     @IsOptional()
-    userid?: string;
+    userId?: string;
 
     @IsString()
     @IsOptional()
@@ -26,4 +26,15 @@ export class UpdateRequestDto {
     @IsEnum(Role)
     @IsOptional()
     role?: Role;
+}
+
+export class UserResponseDto {
+    id: string;
+    userId: string;
+    role: Role;
+    lastLoginAt: Date;
+
+    constructor(partial: Partial<UserResponseDto>) {
+        Object.assign(this, partial);
+    }
 }

@@ -36,6 +36,7 @@
 
 | HTTP Method | URI           | 설명     | 권한 |
 |-------------|---------------|--------| --- |
+| **GET**     | `/users`      | 사용자 조회 |  `ADMIN` |
 | **POST**    | `/users`      | 사용자 등록 |  `ADMIN` |
 | **PATCH**   | `/users/:id`  | 사용자 수정 |  `ADMIN` |
 | **DELETE**  | `/events/:id` | 사용자 삭제 | `ADMIN` |

@@ -39,7 +39,7 @@ export class RewardRequestService {
     }
 
     async findMe(user: AuthenticatedUser): Promise<RewardRequestResponseDto[]> {
-        const rewards = await this.rewardRequestRepository.findByUserId(user.id);
+        const rewards = await this.rewardRequestRepository.findByUserId(user.userId);
         return rewards.map(request => new RewardRequestResponseDto({
             id: request.id,
             eventId: request.eventId,
