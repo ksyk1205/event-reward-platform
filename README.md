@@ -14,14 +14,14 @@
 * **Auth Server**: 사용자 인증 및 권한 관리를 담당합니다.
 * **Event Server**: 이벤트와 보상 관련 CRUD 및 조회 기능을 담당합니다.
 
-### 📌 서버 간 통신 구조
+### 서버 간 통신 구조
 
 * Gateway Server를 통해 모든 요청이 수집되며, URI에 맞춰 Auth Server 또는 Event Server로 요청이 전달됩니다.
 * 인증이 필요한 요청은 Gateway에서 JWT 인증을 거친 후 내부 서버로 전달됩니다.
 
 ---
 
-## 📌 기술 스택
+## 💾 기술 스택
 
 * **Node.js** + **NestJS**
 * **MongoDB**
@@ -99,6 +99,20 @@
 ----
 
 
+## ✨ **기본 생성 사용자**
+Docker Compose 실행 시 다음과 같은 기본 사용자가 생성됩니다.
+
+| Username | Password  | Role    |
+|-----------|-----------|---------|
+| admin     | admin1234 | ADMIN  |
+| operator  | operator1234 | OPERATOR |
+| user      | user1234 | USER |
+
+> MongoDB 초기화 시 `init-mongo.js`에 의해 자동 생성됩니다.  
+
+---
+
+
 ## 📌 실행 방법
 
 ```bash
@@ -123,7 +137,6 @@ $ docker compose up --build
 * Gateway Server가 모든 트래픽을 제어하여 장애 대응 및 로드 밸런싱에 유리합니다.
 * JWT를 활용한 인증 처리로 안전한 데이터 전송이 보장됩니다.
 
-
 ---
 
 
@@ -132,5 +145,6 @@ $ docker compose up --build
 * 로깅 시스템 개선 및 APM 도입
 * Swagger를 통한 API 문서화 추가
 * 이벤트 상태에 따른 자동 만료 처리
-
+* Redis를 도입하여 세션 기반 토큰 관리
+* 
 ---
