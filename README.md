@@ -102,11 +102,9 @@
 ## ✨ **기본 생성 사용자**
 Docker Compose 실행 시 다음과 같은 기본 사용자가 생성됩니다.
 
-| Username | Password  | Role    |
+| userId | Password  | Role    |
 |-----------|-----------|---------|
 | admin     | admin1234 | ADMIN  |
-| operator  | operator1234 | OPERATOR |
-| user      | user1234 | USER |
 
 > MongoDB 초기화 시 `init-mongo.js`에 의해 자동 생성됩니다.  
 
