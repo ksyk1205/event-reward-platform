@@ -144,5 +144,5 @@ $ docker compose up --build
 * Swagger를 통한 API 문서화 추가
 * 이벤트 상태에 따른 자동 만료 처리
 * Redis를 도입하여 세션 기반 토큰 관리
-* 
+
 ---
