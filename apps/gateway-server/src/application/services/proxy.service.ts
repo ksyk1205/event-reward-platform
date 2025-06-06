@@ -10,12 +10,14 @@ export class ProxyService {
     private getTargetUrl(path: string): string {
         if (path.startsWith('/auth')) return `http://auth-server:3001`+path;
         if (path.startsWith('/users')) return `http://auth-server:3001`+path;
+        if (path.startsWith('/api-docs')) return `http://auth-server:3001` + path;
         if (path.startsWith('/events')) return `http://event-server:3002`+path;
         if (path.startsWith('/rewards')) return `http://event-server:3002`+path;
         return path;
     }
 
-    async forwardRequest(path: string, method: string, data?: any, headers?: any, user?: any) {
+    async forwardRequest(path: string, method: string, data?: any, headers?: any, user?: any)
+        : Promise<{ status: number; headers: Record<string, any>; data: any }> {
         const isAuthPath = path.startsWith('/auth');
 
         const filteredHeaders = Object.entries(headers)
@@ -42,11 +44,16 @@ export class ProxyService {
             url: targetUrl,
             data,
             headers: filteredHeaders,
+            validateStatus: () => true,
         };
 
         try {
             const response = await firstValueFrom(this.httpService.request(requestConfig));
-            return response.data;
+            return {
+                status: response.status,
+                headers: response.headers,
+                data: response.data,
+            };
         } catch (e) {
             throw new HttpException(`Proxy forwarding failed: ${e.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
         }

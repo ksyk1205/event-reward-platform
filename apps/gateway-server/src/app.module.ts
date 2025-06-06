@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {ProxyService} from "./application/services/proxy.service";
 import {HttpModule} from "@nestjs/axios";
 import {JwtAuthGuard} from "./common/guards/jwt-auth.guard";
@@ -10,27 +10,30 @@ import {AppController} from "./app.controller";
 import {AppService} from "./app.service";
 import {RolesGuard} from "./common/guards/roles.guard";
 import {RewardRequestProxyController} from "./presentation/controllers/reward-request-proxy.controller";
+import {DocsProxyController} from "./presentation/controllers/docs-proxy.controller";
 
 @Module({
-  imports: [HttpModule],
-  controllers: [AuthProxyController,
-    EventProxyController,
-    UserProxyController,
-    RewardRequestProxyController,
-    AppController
-  ],
-  providers: [
-    ProxyService,
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    }
-  ],
+    imports: [HttpModule],
+    controllers: [AuthProxyController,
+        EventProxyController,
+        UserProxyController,
+        RewardRequestProxyController,
+        DocsProxyController,
+        AppController
+    ],
+    providers: [
+        ProxyService,
+        AppService,
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        }
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}
 
