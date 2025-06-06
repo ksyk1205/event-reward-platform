@@ -125,6 +125,23 @@ $ docker compose up --build
 
 ---
 
+## 📌 Swagger API 문서
+Docker를 통해 서버를 실행하면, Gateway 서버를 통해 각 서비스의 Swagger 문서를 확인할 수 있습니다.
+로컬에서 다음 URL로 접속하여 서비스별 API 명세를 확인하세요:
+
+### 🔹 이벤트 서비스
+- URL: http://localhost:3000/api-docs/event
+- 설명: 이벤트 생성, 수정, 보상 등록 및 신청 등 이벤트 도메인의 API 문서
+
+### 🔹 사용자 서비스
+- URL: http://localhost:3000/api-docs/user
+- 설명: 사용자 등록, 인증, 역할 관리 등 유저 도메인의 API 문서
+
+> ✅ 해당 문서는 Docker Compose로 전체 서버를 실행한 뒤에 접근 가능합니다.
+Swagger 문서 경로는 Gateway 서버에서 프록시 형태로 연결되며, 각 서비스 내부에서 Swagger가 활성화되어 있어야 정상 표시됩니다.
+
+---
+
 ## 📌 설계 및 의도
 
 본 프로젝트는 이벤트와 보상 관리를 MSA(Microservices Architecture) 구조로 분리하여 확장성과 유지보수를 극대화하였습니다.
@@ -141,7 +158,6 @@ $ docker compose up --build
 ## 📌 개선 사항
 
 * 로깅 시스템 개선 및 APM 도입
-* Swagger를 통한 API 문서화 추가
 * 이벤트 상태에 따른 자동 만료 처리
 * Redis를 도입하여 세션 기반 토큰 관리
 
