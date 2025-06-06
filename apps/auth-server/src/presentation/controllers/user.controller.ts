@@ -68,7 +68,7 @@ export class UserController {
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
     @ApiOperation({ summary: '사용자 삭제' })
-    @ApiParam({ name: 'id', description: '사용자 ID' })
+    @ApiParam({ name: 'id', description: 'ID' })
     @ApiResponse({ status: 204, description: '사용자 삭제 완료' })
     async delete(@Param('id') id: string) {
         await this.userService.delete(id);
